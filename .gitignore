@@ -9,3 +9,9 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+# Test arb files
+*.arb
+
+# Excution files
+*.exe
