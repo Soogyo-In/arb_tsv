@@ -8,22 +8,39 @@ class BundleItem {
     this.value, {
     String type,
     String description,
-    Set<String> placeholders = const {},
+    Map<String, dynamic> placeholders = const {},
   }) : options = BundleItemOptions(
           type: type,
           description: description,
-          placeHolders: placeholders,
+          placeholders: placeholders,
         );
+
+  Map<String, String> get arb => {
+        name: value,
+        '@$name': options.arb.toString(),
+      };
 }
 
 class BundleItemOptions {
   final String type;
   final String description;
-  final Set<String> placeHolders;
+  final Map<String, dynamic> placeholders;
 
   BundleItemOptions({
     this.type,
     this.description,
-    this.placeHolders = const {},
+    this.placeholders = const {},
   });
+
+  Map<String, String> get arb {
+    final _arb = <String, String>{};
+
+    if (type != null) _arb.putIfAbsent('type', () => type);
+    if (description != null) _arb.putIfAbsent('desc', () => description);
+    if (placeholders != null) {
+      _arb.putIfAbsent('placeholders', () => placeholders.toString());
+    }
+
+    return _arb;
+  }
 }

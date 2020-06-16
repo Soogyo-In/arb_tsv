@@ -25,7 +25,9 @@ class Bundle {
     final bundle = Bundle(
       author: arb['@@author'],
       context: arb['@@context'],
-      lastModified: DateTime.parse(arb['@@last_modified']),
+      lastModified: arb['@@last_modified'] == null
+          ? DateTime.now()
+          : DateTime.parse(arb['@@last_modified']),
       locale: arb['@@locale'],
       items: {},
     );
@@ -35,13 +37,13 @@ class Bundle {
 
       final name = item.key;
       final value = item.value;
-      final options = bundleItems['@$name'];
+      final options = bundleItems['@$name'] ?? <String, dynamic>{};
 
       bundle.items.add(BundleItem(
         name,
         value,
         description: options['description'],
-        placeholders: {...(options['placeholders'] as Map).keys},
+        placeholders: options['placeholders'],
         type: options['type'],
       ));
     }
@@ -49,13 +51,18 @@ class Bundle {
     return bundle;
   }
 
-  Map<String, dynamic> get arb => {
-        '@@last_modified': lastModified.toIso8601String(),
-        '@@locale': locale,
-        '@@context': context,
-        '@@author': author,
-      };
+  Map<String, dynamic> get arb {
+    final _arb = <String, dynamic>{
+      '@@last_modified': lastModified.toIso8601String(),
+      '@@locale': locale,
+      '@@context': context,
+      '@@author': author,
+    };
 
-  @override
-  String toString() => arb.toString();
+    for (final item in items) {
+      _arb.addAll(item.arb);
+    }
+
+    return _arb;
+  }
 }
