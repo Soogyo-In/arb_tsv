@@ -23,12 +23,12 @@ class Bundle {
     );
 
     final bundle = Bundle(
-      author: arb['@@author'],
-      context: arb['@@context'],
+      author: arb['@@author'] ?? '',
+      context: arb['@@context'] ?? '',
       lastModified: arb['@@last_modified'] == null
           ? DateTime.now()
           : DateTime.parse(arb['@@last_modified']),
-      locale: arb['@@locale'],
+      locale: arb['@@locale'] ?? '',
       items: {},
     );
 
@@ -42,9 +42,9 @@ class Bundle {
       bundle.items.add(BundleItem(
         name,
         value,
-        description: options['description'],
-        placeholders: options['placeholders'],
-        type: options['type'],
+        description: options['description'] ?? '',
+        placeholders: options['placeholders'] ?? [],
+        type: options['type'] ?? '',
       ));
     }
 
@@ -64,5 +64,17 @@ class Bundle {
     }
 
     return _arb;
+  }
+
+  String get tsv {
+    final globals = 'last_modified\t${lastModified.toIso8601String()}\n'
+        'context\t$context\n'
+        'locale\t$locale\n'
+        'author\t$author\n';
+    final divider = '\n';
+    final columns = 'name\tvalue\tdescription\tplaceholders\ttype\n';
+    final rows = items.map((e) => e.tsv).join('\n');
+
+    return globals + divider + columns + rows;
   }
 }

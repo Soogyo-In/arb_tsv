@@ -6,8 +6,8 @@ class BundleItem {
   BundleItem(
     this.name,
     this.value, {
-    String type,
-    String description,
+    String type = '',
+    String description = '',
     Map<String, dynamic> placeholders = const {},
   }) : options = BundleItemOptions(
           type: type,
@@ -19,6 +19,8 @@ class BundleItem {
         name: value,
         '@$name': options.arb.toString(),
       };
+
+  String get tsv =>'$name\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
 }
 
 class BundleItemOptions {
@@ -27,8 +29,8 @@ class BundleItemOptions {
   final Map<String, dynamic> placeholders;
 
   BundleItemOptions({
-    this.type,
-    this.description,
+    this.type = '',
+    this.description = '',
     this.placeholders = const {},
   });
 
@@ -43,4 +45,6 @@ class BundleItemOptions {
 
     return _arb;
   }
+
+  String get tsv => '${description.replaceAll('\n', r'\n')}\t${placeholders.keys.join('|')}\t$type';
 }
