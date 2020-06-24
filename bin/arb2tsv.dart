@@ -2,11 +2,33 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:arb_tsv/bundle.dart';
 import 'package:args/args.dart';
+import 'package:path/path.dart' as path;
 
+ArgParser parser;
 void main(List<String> arguments) {
-  final parser = ArgParser();
-  final result = parser.parse(['bin']);
-  final filePath = result.command.rest.firstWhere(
+  var outputDir = Directory.current.path;
+
+  parser = ArgParser()
+    ..addOption(
+      'output-dir',
+      abbr: 'o',
+      defaultsTo: '.',
+      help: 'Set output directory for generated tsv file.',
+      valueHelp: 'output directory',
+      callback: (path) {
+        if (!Directory(path).existsSync()) {
+          print('Cannot find path specified which ${path}');
+          print('Usage: arb2tsv [intl_messages.arb file path] [options]');
+          print(parser.usage);
+          exit(0);
+        }
+
+        outputDir = path;
+      },
+    );
+  final result = parser.parse(arguments);
+  
+  final filePath = result.rest.firstWhere(
     (argument) =>
         argument.startsWith(RegExp(r'.{0,1}/')) ||
         argument.startsWith(RegExp(r'^\w*$')) ||
@@ -15,24 +37,30 @@ void main(List<String> arguments) {
   );
 
   if (!Directory(filePath).existsSync()) {
-    print('Cannot find path specified. $filePath');
-    print('Usage: arb2tsv [intl_messages.arb file path]');
+    print('Cannot find path specified which $filePath');
+    print('Usage: arb2tsv [intl_messages.arb file path] [options]');
+    print(parser.usage);
     exit(0);
   }
 
-  _parseArb(File('$filePath/intl_messages.arb'));
+  final bundle = _parseArb(File(path.join(filePath, 'intl_messages.arb')));
+
+  outputDir = path.join(outputDir, 'test.tsv');
+
+  final tsv = File(outputDir);
+
+  tsv.writeAsStringSync(bundle.tsv);
 }
 
-void _parseArb(File arb) {
+Bundle _parseArb(File arb) {
   if (!arb.existsSync()) {
-    print('Cannot find intl_messages.arb at ${arb.path}.');
-    print('Usage: arb2tsv [intl_messages.arb file path]');
+    print('Cannot find intl_messages.arb at ${arb.path}');
+    print('Usage: arb2tsv [intl_messages.arb file path] [options]');
+    print(parser.usage);
     exit(0);
   }
 
-  final arbJson = json.decode(arb.readAsStringSync()) as Map<String, dynamic>;
+  final Map<String, dynamic> arbJson = json.decode(arb.readAsStringSync());
 
-  final bundle = Bundle.fromArb(arbJson);
-
-  print(bundle.arb);
+  return Bundle.fromArb(arbJson);
 }
