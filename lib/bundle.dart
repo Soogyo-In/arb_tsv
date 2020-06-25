@@ -43,7 +43,7 @@ class Bundle {
         name,
         value,
         description: options['description'] ?? '',
-        placeholders: options['placeholders'] ?? [],
+        placeholders: options['placeholders'] ?? {},
         type: options['type'] ?? '',
       ));
     }

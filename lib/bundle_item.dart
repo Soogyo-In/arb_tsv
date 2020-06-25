@@ -20,7 +20,7 @@ class BundleItem {
         '@$name': options.arb.toString(),
       };
 
-  String get tsv =>'$name\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
+  String get tsv => '$name\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
 }
 
 class BundleItemOptions {
@@ -34,17 +34,12 @@ class BundleItemOptions {
     this.placeholders = const {},
   });
 
-  Map<String, String> get arb {
-    final _arb = <String, String>{};
+  Map<String, String> get arb => {
+        'type': type,
+        'desc': description,
+        'placeholders': placeholders.toString(),
+      };
 
-    if (type != null) _arb.putIfAbsent('type', () => type);
-    if (description != null) _arb.putIfAbsent('desc', () => description);
-    if (placeholders != null) {
-      _arb.putIfAbsent('placeholders', () => placeholders.toString());
-    }
-
-    return _arb;
-  }
-
-  String get tsv => '${description.replaceAll('\n', r'\n')}\t${placeholders.keys.join('|')}\t$type';
+  String get tsv =>
+      '${description.replaceAll('\n', r'\n')}\t${placeholders.keys}\t$type';
 }
