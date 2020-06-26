@@ -12,6 +12,7 @@ doc/api/
 
 # Test arb files
 *.arb
+*.tsv
 
 # Excution files
 *.exe
