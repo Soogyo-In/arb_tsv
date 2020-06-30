@@ -5,10 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Dart",
+            "name": "arb2tsv",
             "program": "bin/arb2tsv.dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "test/arb",
+                "-o",
+                "test/tsv"
+            ]
+        },
+        {
+            "name": "tsv2arb",
+            "program": "bin/tsv2arb.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "test/tsv",
+                "-o",
+                "test/arb"
+            ]
         }
-    ]
+    ],
 }
