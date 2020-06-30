@@ -15,7 +15,7 @@ void main(List<String> arguments) {
     valueHelp: 'output directory',
     callback: (path) {
       if (!Directory(path).existsSync()) {
-        print('Cannot find path specified which ${path}');
+        print('Cannot find path specified which [${path}].');
         print('Usage: tsv2arb [tsv file path] [options]');
         print(parser.usage);
         exit(0);
@@ -29,7 +29,7 @@ void main(List<String> arguments) {
   final targetDirectory = Directory(result.rest.isEmpty ? '.' : result.rest.first);
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.tsv')) {
-    print('Cannot find path specified which $targetDirectory');
+    print('Cannot find path specified which [$targetDirectory].');
     print('Usage: tsv2arb [tsv file path] [options]');
     print(parser.usage);
     exit(0);
