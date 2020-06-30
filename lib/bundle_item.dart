@@ -15,9 +15,9 @@ class BundleItem {
           placeholders: placeholders,
         );
 
-  Map<String, String> get arb => {
+  Map<String, dynamic> get arb => {
         name: value,
-        '@$name': options.arb.toString(),
+        '@$name': options.arb,
       };
 
   String get tsv => '$name\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
@@ -34,10 +34,10 @@ class BundleItemOptions {
     this.placeholders = const {},
   });
 
-  Map<String, String> get arb => {
+  Map<String, dynamic> get arb => {
         'type': type,
         'desc': description,
-        'placeholders': placeholders.toString(),
+        'placeholders': placeholders,
       };
 
   String get tsv =>

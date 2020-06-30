@@ -51,6 +51,72 @@ class Bundle {
     return bundle;
   }
 
+  factory Bundle.fromTsv(String tsv) {
+    final global = tsv.split('\n\n').first.split('\n');
+    final messages = tsv.split('\n\n').last.split('\n');
+
+    var author = '';
+    var context = '';
+    var locale = '';
+    var lastModified = DateTime.now();
+
+    for (final pair in global) {
+      final key = pair.split('\t').first;
+      final value = pair.split('\t').last;
+
+      switch (key) {
+        case 'author':
+          author = value;
+          break;
+        case 'context':
+          context = value;
+          break;
+        case 'locale':
+          locale = value;
+          break;
+        case 'last_modified':
+          lastModified = DateTime.parse(value);
+          break;
+      }
+    }
+
+    final items = <BundleItem>{};
+    final columns = messages.first.split('\t');
+    final rows = messages.skip(1);
+    final nameIndex = columns.indexOf('name');
+    final valueIndex = columns.indexOf('value');
+    final descriptionIndex = columns.indexOf('description');
+    final placeholdersIndex = columns.indexOf('placeholders');
+    final typeIndex = columns.indexOf('type');
+
+    for (final row in rows) {
+      final values = row.split('\t');
+      final placeholders =
+          values[placeholdersIndex].replaceAll(RegExp(r'\(|\)|\ '), '').split(',');
+      final map = <String, dynamic>{};
+      
+      if (placeholders.length > 1) {
+        map.addAll({for (var element in placeholders) element: {}});
+      }
+
+      items.add(BundleItem(
+        values[nameIndex],
+        values[valueIndex],
+        description: values[descriptionIndex],
+        placeholders: map,
+        type: values[typeIndex],
+      ));
+    }
+
+    return Bundle(
+      author: author,
+      context: context,
+      locale: locale,
+      lastModified: lastModified,
+      items: items,
+    );
+  }
+
   Map<String, dynamic> get arb {
     final _arb = <String, dynamic>{
       '@@last_modified': lastModified.toIso8601String(),
