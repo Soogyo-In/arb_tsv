@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'bundle_item.dart';
 
 class Bundle {
@@ -91,10 +93,11 @@ class Bundle {
 
     for (final row in rows) {
       final values = row.split('\t');
-      final placeholders =
-          values[placeholdersIndex].replaceAll(RegExp(r'\(|\)|\ '), '').split(',');
+      final placeholders = values[placeholdersIndex]
+          .replaceAll(RegExp(r'\(|\)|\ '), '')
+          .split(',');
       final map = <String, dynamic>{};
-      
+
       if (placeholders.length > 1) {
         map.addAll({for (var element in placeholders) element: {}});
       }
@@ -116,6 +119,9 @@ class Bundle {
       items: items,
     );
   }
+
+  factory Bundle.fromFile(File file) =>
+      Bundle.fromArb(json.decode(file.readAsStringSync()));
 
   Map<String, dynamic> get arb {
     final _arb = <String, dynamic>{

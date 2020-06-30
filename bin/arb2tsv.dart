@@ -49,15 +49,9 @@ void main(List<String> arguments) {
   }
 
   for (final arbFile in arbFiles) {
-    final bundle = _parseArb(arbFile);
+    final bundle = Bundle.fromFile(arbFile);
     final fileName = arbFile.path.split(r'\').last.split('.').first;
     final tsvFile = File(path.join(outputDir, '${fileName}.tsv'));
     tsvFile.writeAsStringSync(bundle.tsv);
   }
-}
-
-Bundle _parseArb(File arb) {
-  final Map<String, dynamic> arbJson = json.decode(arb.readAsStringSync());
-
-  return Bundle.fromArb(arbJson);
 }
