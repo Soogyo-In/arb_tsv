@@ -26,13 +26,7 @@ void main(List<String> arguments) {
   );
 
   final result = parser.parse(arguments);
-  final targetDirectory = Directory(result.rest.firstWhere(
-    (argument) =>
-        argument.startsWith(RegExp(r'.{0,1}')) ||
-        argument.startsWith(RegExp(r'^\w*$')) ||
-        argument.startsWith(RegExp(r'\D:/')),
-    orElse: () => '.',
-  ));
+  final targetDirectory = Directory(result.rest.isEmpty ? '.' : result.rest.first);
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.arb')) {
     print('Cannot find path specified which $targetDirectory');
