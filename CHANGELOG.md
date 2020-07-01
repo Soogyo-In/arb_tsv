@@ -9,3 +9,7 @@
 ## 0.2.1
 
 - Fix output messages.
+
+## 0.2.2
+
+- Fix unexpected new line during convert arb to tsv.
