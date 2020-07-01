@@ -11,7 +11,7 @@ void main(List<String> arguments) {
     'output-dir',
     abbr: 'o',
     defaultsTo: '.',
-    help: 'Set output directory for generated tsv file.',
+    help: 'Set output directory for generated arb file.',
     valueHelp: 'output directory',
     callback: (path) {
       if (!Directory(path).existsSync()) {
@@ -26,7 +26,8 @@ void main(List<String> arguments) {
   );
 
   final result = parser.parse(arguments);
-  final targetDirectory = Directory(result.rest.isEmpty ? '.' : result.rest.first);
+  final targetDirectory =
+      Directory(result.rest.isEmpty ? '.' : result.rest.first);
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.tsv')) {
     print('Cannot find path specified which [$targetDirectory].');

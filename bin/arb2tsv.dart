@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:arb_tsv/bundle.dart';
 import 'package:args/args.dart';
@@ -26,7 +25,8 @@ void main(List<String> arguments) {
   );
 
   final result = parser.parse(arguments);
-  final targetDirectory = Directory(result.rest.isEmpty ? '.' : result.rest.first);
+  final targetDirectory =
+      Directory(result.rest.isEmpty ? '.' : result.rest.first);
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.arb')) {
     print('Cannot find path specified which [$targetDirectory].');
