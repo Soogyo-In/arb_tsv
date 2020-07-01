@@ -149,4 +149,8 @@ class Bundle {
 
     return globals + divider + columns + rows;
   }
+
+  void merge(Bundle bundle) {
+    // TODO: merge arb values.
+  }
 }
