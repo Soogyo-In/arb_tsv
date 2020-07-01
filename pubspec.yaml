@@ -1,6 +1,6 @@
 name: arb_tsv
 description: arb <-> tsv converter
-version: 0.2.2
+version: 0.3.0
 homepage: https://github.com/flutterstudygn/arb_tsv
 
 environment:

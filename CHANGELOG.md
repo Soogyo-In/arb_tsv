@@ -13,3 +13,7 @@
 ## 0.2.2
 
 - Fix unexpected new line during convert arb to tsv.
+
+## 0.3.0
+
+- Make output directory when given directory is not exists.

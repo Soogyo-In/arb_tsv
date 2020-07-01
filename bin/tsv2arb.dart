@@ -5,7 +5,7 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
 void main(List<String> arguments) {
-  var outputDir = Directory.current.path;
+  var outputDir = Directory.current;
   final parser = ArgParser();
   parser.addOption(
     'output-dir',
@@ -14,14 +14,8 @@ void main(List<String> arguments) {
     help: 'Set output directory for generated arb file.',
     valueHelp: 'output directory',
     callback: (path) {
-      if (!Directory(path).existsSync()) {
-        print('Cannot find path specified which [${path}].');
-        print('Usage: tsv2arb [tsv file path] [options]');
-        print(parser.usage);
-        exit(0);
-      }
-
-      outputDir = path;
+      outputDir = Directory(path);
+      if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
     },
   );
 
@@ -52,7 +46,7 @@ void main(List<String> arguments) {
   for (final tsvFile in tsvFiles) {
     final bundle = Bundle.fromTsv(tsvFile.readAsStringSync());
     final fileName = tsvFile.path.split(r'\').last.split('.').first;
-    final arbFile = File(path.join(outputDir, '${fileName}.arb'));
+    final arbFile = File(path.join(outputDir.path, '${fileName}.arb'));
     arbFile.writeAsStringSync(json.encode(bundle.arb));
   }
 }
