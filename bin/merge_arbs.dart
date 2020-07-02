@@ -15,16 +15,14 @@ void main(List<String> arguments) {
     print(
         'Just one source arb file must specified. The [${sourceArbFile.path}] is not a arb file.');
     print(
-        'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
-    print(parser.usage);
+        'Usage: merge_arbs [source arb file path] [merge target arb file paths]');
     exit(0);
   }
 
   if (!sourceArbFile.existsSync()) {
     print('Cannot find path specified which [${sourceArbFile.path}].');
     print(
-        'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
-    print(parser.usage);
+        'Usage: merge_arbs [source arb file path] [merge target arb file paths]');
     exit(0);
   }
 
@@ -33,15 +31,13 @@ void main(List<String> arguments) {
       if (!File(target.path).existsSync()) {
         print('Cannot find arb file specified which [${target.path}].');
         print(
-            'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
-        print(parser.usage);
+            'Usage: merge_arbs [source arb file path] [merge target arb file paths]');
         exit(0);
       }
     } else if (!target.existsSync()) {
       print('Cannot find path specified which [${target.path}].');
       print(
-          'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
-      print(parser.usage);
+          'Usage: merge_arbs [source arb file path] [merge target arb file paths]');
       exit(0);
     }
   }

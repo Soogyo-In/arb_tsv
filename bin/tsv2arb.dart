@@ -11,7 +11,8 @@ void main(List<String> arguments) {
     'output-dir',
     abbr: 'o',
     defaultsTo: '.',
-    help: 'Set output directory for generated arb file.',
+    help:
+        'Set output directory for generated arb file. Create directory if given directory is not exists',
     valueHelp: 'output directory',
     callback: (path) {
       outputDir = Directory(path);
@@ -25,7 +26,8 @@ void main(List<String> arguments) {
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.tsv')) {
     print('Cannot find path specified which [$targetDirectory].');
-    print('Usage: tsv2arb [tsv file path] [options]');
+    print(
+        'Usage: tsv2arb [path of tsv file or directory containing tsv files] [options]');
     print(parser.usage);
     exit(0);
   }

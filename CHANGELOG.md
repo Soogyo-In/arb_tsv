@@ -21,3 +21,7 @@
 ## 0.4.0
 
 - Merge multiple target arb files with one source arb file without overwrite but appends new messages.
+
+## 0.4.1
+
+- Change output messages.
