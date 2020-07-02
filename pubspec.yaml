@@ -1,6 +1,6 @@
 name: arb_tsv
 description: This package provides conversion between arb files and tsv files and merging arb files for easy internationalization.
-version: 0.4.1
+version: 1.0.0
 homepage: https://github.com/flutterstudygn/arb_tsv
 
 environment:

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'bundle_item.dart';
 
+/// Model class for ARB file.
 class Bundle {
   final DateTime lastModified;
   final String locale;
@@ -123,6 +124,7 @@ class Bundle {
   factory Bundle.fromFile(File file) =>
       Bundle.fromArb(json.decode(file.readAsStringSync()));
 
+  /// Get ARB format Object.
   Map<String, dynamic> get arb {
     final _arb = <String, dynamic>{
       '@@last_modified': lastModified.toIso8601String(),
@@ -138,6 +140,7 @@ class Bundle {
     return _arb;
   }
 
+  /// Get TSV string.
   String get tsv {
     final globals = 'last_modified\t${lastModified.toIso8601String()}\n'
         'context\t$context\n'
@@ -150,6 +153,10 @@ class Bundle {
     return globals + divider + columns + rows;
   }
 
+  /// Makes new [Bundle] which merged this with other.
+  /// Last modified time will update as now.
+  /// Items that not in this but other are append.
+  /// Rest of all are same as this.
   Bundle merge(Bundle other) {
     final keys = items.map((item) => item.name).toSet();
     final otherKeys = other.items.map((item) => item.name).toSet();

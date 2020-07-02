@@ -25,3 +25,7 @@
 ## 0.4.1
 
 - Change output messages.
+
+## 1.0.0
+
+- Update README.md and comments.

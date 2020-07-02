@@ -1,3 +1,4 @@
+/// Model class for item in ARB file.
 class BundleItem {
   final String name;
   final String value;
@@ -15,15 +16,18 @@ class BundleItem {
           placeholders: placeholders,
         );
 
+  /// Get ARB format Object.
   Map<String, dynamic> get arb => {
         name: value,
         '@$name': options.arb,
       };
 
+  /// Get TSV string.
   String get tsv =>
       '${name.replaceAll('\n', r'\n')}\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
 }
 
+/// Model class for options in ARB item.
 class BundleItemOptions {
   final String type;
   final String description;
@@ -35,12 +39,14 @@ class BundleItemOptions {
     this.placeholders = const {},
   });
 
+  /// Get ARB format Object.
   Map<String, dynamic> get arb => {
         'type': type,
         'desc': description,
         'placeholders': placeholders,
       };
 
+  /// Get TSV string.
   String get tsv =>
       '${description.replaceAll('\n', r'\n')}\t${placeholders.keys}\t$type';
 }
