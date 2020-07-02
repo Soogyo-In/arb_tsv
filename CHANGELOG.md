@@ -17,3 +17,7 @@
 ## 0.3.0
 
 - Make output directory when given directory is not exists.
+
+## 0.4.0
+
+- Merge multiple target arb files with one source arb file without overwrite but appends new messages.

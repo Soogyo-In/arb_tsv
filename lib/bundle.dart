@@ -20,7 +20,7 @@ class Bundle {
   factory Bundle.fromArb(Map<String, dynamic> arb) {
     final bundleItems = Map.fromEntries(
       arb.entries.where(
-        (element) => !element.key.startsWith('@@'),
+        (entry) => !entry.key.startsWith('@@'),
       ),
     );
 
@@ -145,8 +145,24 @@ class Bundle {
         'author\t$author\n';
     final divider = '\n';
     final columns = 'name\tvalue\tdescription\tplaceholders\ttype\n';
-    final rows = items.map((e) => e.tsv).join('\n');
+    final rows = items.map((row) => row.tsv).join('\n');
 
     return globals + divider + columns + rows;
+  }
+
+  Bundle merge(Bundle other) {
+    final keys = items.map((item) => item.name).toSet();
+    final otherKeys = other.items.map((item) => item.name).toSet();
+    final newKeys = otherKeys.difference(keys);
+    final newItems =
+        other.items.where((item) => newKeys.contains(item.name)).toSet();
+
+    return Bundle(
+      lastModified: DateTime.now(),
+      author: author,
+      context: context,
+      locale: locale,
+      items: items.union(newItems),
+    );
   }
 }
