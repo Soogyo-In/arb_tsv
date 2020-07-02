@@ -25,6 +25,16 @@
                 "-o",
                 "test/arb"
             ]
+        },
+        {
+            "name": "merge_arbs",
+            "program": "bin/merge_arbs.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "test/merge/intl_messages.arb",
+                "test/merge"
+            ]
         }
     ],
 }

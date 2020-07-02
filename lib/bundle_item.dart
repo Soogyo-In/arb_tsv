@@ -20,7 +20,8 @@ class BundleItem {
         '@$name': options.arb,
       };
 
-  String get tsv => '${name.replaceAll('\n', r'\n')}\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
+  String get tsv =>
+      '${name.replaceAll('\n', r'\n')}\t${value.replaceAll('\n', r'\n')}\t${options.tsv}';
 }
 
 class BundleItemOptions {

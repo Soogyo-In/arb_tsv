@@ -29,7 +29,7 @@ void main(List<String> arguments) {
     exit(0);
   }
 
-  final arbFiles = <File>[];
+  final arbFiles = <File>{};
 
   if (targetDirectory.path.contains('.arb')) {
     arbFiles.add(File(targetDirectory.path));

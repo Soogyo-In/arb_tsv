@@ -30,7 +30,7 @@ void main(List<String> arguments) {
     exit(0);
   }
 
-  final tsvFiles = <File>[];
+  final tsvFiles = <File>{};
 
   if (targetDirectory.path.contains('.tsv')) {
     tsvFiles.add(File(targetDirectory.path));

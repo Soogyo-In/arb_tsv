@@ -8,8 +8,8 @@ void main(List<String> arguments) {
   final result = parser.parse(arguments);
   final sourceArbFile = File(result.rest.first);
   final targetDirectories =
-      result.rest.map<Directory>((path) => Directory(path));
-  final targetArbFiles = <File>[];
+      result.rest.skip(1).map<Directory>((path) => Directory(path));
+  final targetArbFiles = <File>{};
 
   if (!sourceArbFile.path.contains('.arb')) {
     print(
@@ -29,7 +29,15 @@ void main(List<String> arguments) {
   }
 
   for (final target in targetDirectories) {
-    if (!target.existsSync()) {
+    if (target.path.contains('.arb')) {
+      if (!File(target.path).existsSync()) {
+        print('Cannot find arb file specified which [${target.path}].');
+        print(
+            'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
+        print(parser.usage);
+        exit(0);
+      }
+    } else if (!target.existsSync()) {
       print('Cannot find path specified which [${target.path}].');
       print(
           'Usage: merge_arbs [source arb file path] [merge target arb file paths] [options]');
@@ -50,12 +58,13 @@ void main(List<String> arguments) {
       );
     }
   }
+  targetArbFiles.removeWhere((arbFile) => arbFile.uri == sourceArbFile.uri);
 
   final sourceArb = Bundle.fromFile(sourceArbFile);
 
   for (final arbFile in targetArbFiles) {
     final bundle = Bundle.fromFile(arbFile);
-    bundle.merge(sourceArb);
-    arbFile.writeAsStringSync(json.encode(bundle.arb));
+    final mergedBundle = bundle.merge(sourceArb);
+    arbFile.writeAsStringSync(json.encode(mergedBundle.arb));
   }
 }
