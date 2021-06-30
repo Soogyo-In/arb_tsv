@@ -15,7 +15,7 @@ void main(List<String> arguments) {
         'Set output directory for generated arb file. Create directory if given directory is not exists',
     valueHelp: 'output directory',
     callback: (path) {
-      outputDir = Directory(path);
+      outputDir = Directory(path!);
       if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
     },
   );
@@ -48,7 +48,7 @@ void main(List<String> arguments) {
   for (final tsvFile in tsvFiles) {
     final bundle = Bundle.fromTsv(tsvFile.readAsStringSync());
     final fileName = tsvFile.path.split(r'\').last.split('.').first;
-    final arbFile = File(path.join(outputDir.path, '${fileName}.arb'));
+    final arbFile = File(path.join(outputDir.path, '$fileName.arb'));
     arbFile.writeAsStringSync(json.encode(bundle.arb));
   }
 }

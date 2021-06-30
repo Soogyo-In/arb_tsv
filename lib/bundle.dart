@@ -5,13 +5,13 @@ import 'bundle_item.dart';
 /// Model class for ARB file.
 class Bundle {
   final DateTime lastModified;
-  final String locale;
-  final String context;
-  final String author;
+  final String? locale;
+  final String? context;
+  final String? author;
   final Set<BundleItem> items;
 
   Bundle(
-      {DateTime lastModified,
+      {DateTime? lastModified,
       this.locale,
       this.context,
       this.author,

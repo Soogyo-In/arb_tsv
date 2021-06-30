@@ -29,3 +29,7 @@
 ## 1.0.0
 
 - Update README.md and comments.
+
+## 2.0.0
+
+- Migrate to null saftey
