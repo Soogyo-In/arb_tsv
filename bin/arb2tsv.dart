@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:arb_tsv/bundle.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
@@ -14,7 +15,7 @@ void main(List<String> arguments) {
         'Set output directory for generated tsv file. Create directory if given directory is not exists',
     valueHelp: 'output directory',
     callback: (path) {
-      outputDir = Directory(path);
+      outputDir = Directory(path!);
       if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
     },
   );
@@ -47,7 +48,7 @@ void main(List<String> arguments) {
   for (final arbFile in arbFiles) {
     final bundle = Bundle.fromFile(arbFile);
     final fileName = arbFile.path.split(r'\').last.split('.').first;
-    final tsvFile = File(path.join(outputDir.path, '${fileName}.tsv'));
+    final tsvFile = File(path.join(outputDir.path, '$fileName.tsv'));
     tsvFile.writeAsStringSync(bundle.tsv);
   }
 }

@@ -1,22 +1,23 @@
-import 'dart:io';
 import 'dart:convert';
+import 'dart:io';
+
 import 'bundle_item.dart';
 
 /// Model class for ARB file.
 class Bundle {
   final DateTime lastModified;
-  final String locale;
-  final String context;
-  final String author;
+  final String? locale;
+  final String? context;
+  final String? author;
   final Set<BundleItem> items;
 
-  Bundle(
-      {DateTime lastModified,
-      this.locale,
-      this.context,
-      this.author,
-      this.items = const {}})
-      : lastModified = lastModified ?? DateTime.now();
+  Bundle({
+    DateTime? lastModified,
+    this.locale,
+    this.context,
+    this.author,
+    this.items = const {},
+  }) : lastModified = lastModified ?? DateTime.now();
 
   factory Bundle.fromArb(Map<String, dynamic> arb) {
     final bundleItems = Map.fromEntries(
@@ -43,8 +44,8 @@ class Bundle {
       final options = bundleItems['@$name'] ?? <String, dynamic>{};
 
       bundle.items.add(BundleItem(
-        name,
-        value,
+        name: name,
+        value: value,
         description: options['description'] ?? '',
         placeholders: options['placeholders'] ?? {},
         type: options['type'] ?? '',
@@ -104,8 +105,8 @@ class Bundle {
       }
 
       items.add(BundleItem(
-        values[nameIndex],
-        values[valueIndex],
+        name: values[nameIndex],
+        value: values[valueIndex],
         description: values[descriptionIndex],
         placeholders: map,
         type: values[typeIndex],
@@ -153,7 +154,7 @@ class Bundle {
     return globals + divider + columns + rows;
   }
 
-  /// Makes new [Bundle] which merged this with other.
+  /// Makes new [Bundle] which merged this with [other].
   /// Last modified time will update as now.
   /// Items that not in this but other are append.
   /// Rest of all are same as this.

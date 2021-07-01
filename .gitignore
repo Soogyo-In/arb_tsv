@@ -16,3 +16,7 @@ doc/api/
 
 # Excution files
 *.exe
+
+# Files and directories created by editor
+.idea/
+.vscode/
