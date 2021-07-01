@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:arb_tsv/bundle.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;

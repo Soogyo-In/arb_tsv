@@ -4,9 +4,9 @@ class BundleItem {
   final String value;
   final BundleItemOptions options;
 
-  BundleItem(
-    this.name,
-    this.value, {
+  BundleItem({
+    required this.name,
+    required this.value,
     String type = '',
     String description = '',
     Map<String, dynamic> placeholders = const {},
