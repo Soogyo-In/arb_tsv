@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Fixed an error where the output file name was not set properly.
+
 ## 2.0.0
 
 - Migrate to null saftey
