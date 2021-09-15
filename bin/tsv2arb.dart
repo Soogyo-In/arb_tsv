@@ -5,25 +5,28 @@ import 'package:arb_tsv/bundle.dart';
 import 'package:args/args.dart';
 import 'package:path/path.dart' as path;
 
+const _kDefaultInputDir = '.';
+const _kDefaultOutputDir = '.';
+
 void main(List<String> arguments) {
   var outputDir = Directory.current;
   final parser = ArgParser();
   parser.addOption(
     'output-dir',
     abbr: 'o',
-    defaultsTo: '.',
+    defaultsTo: _kDefaultInputDir,
     help:
         'Set output directory for generated arb file. Create directory if given directory is not exists',
     valueHelp: 'output directory',
-    callback: (path) {
-      outputDir = Directory(path!);
+    callback: (arg) {
+      outputDir = Directory(arg?.trim() ?? _kDefaultOutputDir);
       if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
     },
   );
 
   final result = parser.parse(arguments);
   final targetDirectory =
-      Directory(result.rest.isEmpty ? '.' : result.rest.first);
+      Directory(result.rest.isEmpty ? _kDefaultInputDir : result.rest.first);
 
   if (!targetDirectory.existsSync() && !targetDirectory.path.contains('.tsv')) {
     print('Cannot find path specified which [$targetDirectory].');
@@ -48,7 +51,7 @@ void main(List<String> arguments) {
 
   for (final tsvFile in tsvFiles) {
     final bundle = Bundle.fromTsv(tsvFile.readAsStringSync());
-    final fileName = tsvFile.path.split(r'\').last.split('.').first;
+    final fileName = path.split(tsvFile.path).last.split('.').first;
     final arbFile = File(path.join(outputDir.path, '$fileName.arb'));
     arbFile.writeAsStringSync(json.encode(bundle.arb));
   }
