@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ktc_dart/ktc_dart.dart';
+
 import 'bundle_item.dart';
 
 /// Model class for ARB file.
@@ -56,8 +58,9 @@ class Bundle {
   }
 
   factory Bundle.fromTsv(String tsv) {
-    final global = tsv.split('\n\n').first.split('\n');
-    final messages = tsv.split('\n\n').last.split('\n');
+    final rows = tsv.split('\n').map((row) => row.trimRight());
+    final global = rows.takeWhile((row) => row.isNotEmpty);
+    final messages = rows.skipWhile((row) => row.isNotEmpty).skip(1);
 
     var author = '';
     var context = '';
@@ -66,7 +69,7 @@ class Bundle {
 
     for (final pair in global) {
       final key = pair.split('\t').first;
-      final value = pair.split('\t').last;
+      final value = pair.split('\t').elementAtOrElse(1, (index) => '');
 
       switch (key) {
         case 'author':
@@ -86,15 +89,15 @@ class Bundle {
 
     final items = <BundleItem>{};
     final columns = messages.first.split('\t');
-    final rows = messages.skip(1);
+    final translates = messages.skip(1);
     final nameIndex = columns.indexOf('name');
     final valueIndex = columns.indexOf('value');
     final descriptionIndex = columns.indexOf('description');
     final placeholdersIndex = columns.indexOf('placeholders');
     final typeIndex = columns.indexOf('type');
 
-    for (final row in rows) {
-      final values = row.split('\t');
+    for (final translate in translates) {
+      final values = translate.split('\t');
       final placeholders = values[placeholdersIndex]
           .replaceAll(RegExp(r'\(|\)|\ '), '')
           .split(',');
