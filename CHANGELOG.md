@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Fixed an error caused by a separator (tab) between empty cells when converting tsv -> arb.
+
 ## 2.0.1
 
 - Fixed an error where the output file name was not set properly.
