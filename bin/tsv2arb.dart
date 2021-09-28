@@ -10,19 +10,29 @@ const _kDefaultOutputDir = '.';
 
 void main(List<String> arguments) {
   var outputDir = Directory.current;
+  String? locale;
   final parser = ArgParser();
-  parser.addOption(
-    'output-dir',
-    abbr: 'o',
-    defaultsTo: _kDefaultInputDir,
-    help:
-        'Set output directory for generated arb file. Create directory if given directory is not exists',
-    valueHelp: 'output directory',
-    callback: (arg) {
-      outputDir = Directory(arg?.trim() ?? _kDefaultOutputDir);
-      if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
-    },
-  );
+
+  parser
+    ..addOption(
+      'output-dir',
+      abbr: 'o',
+      defaultsTo: _kDefaultInputDir,
+      help:
+          'Set output directory for generated arb file. Create directory if given directory is not exists',
+      valueHelp: 'output directory',
+      callback: (arg) {
+        outputDir = Directory(arg?.trim() ?? _kDefaultOutputDir);
+        if (!outputDir.existsSync()) outputDir.createSync(recursive: true);
+      },
+    )
+    ..addOption(
+      'locale',
+      abbr: 'l',
+      help: 'Append locale to suffix of the file name. ex) translate_en_US.arb',
+      valueHelp: 'locale in translation',
+      callback: (arg) => locale = arg?.trim(),
+    );
 
   final result = parser.parse(arguments);
   final targetDirectory =
@@ -51,7 +61,8 @@ void main(List<String> arguments) {
 
   for (final tsvFile in tsvFiles) {
     final bundle = Bundle.fromTsv(tsvFile.readAsStringSync());
-    final fileName = path.split(tsvFile.path).last.split('.').first;
+    var fileName = path.split(tsvFile.path).last.split('.').first;
+    if (locale != null) fileName += '_$locale';
     final arbFile = File(path.join(outputDir.path, '$fileName.arb'));
     arbFile.writeAsStringSync(json.encode(bundle.arb));
   }
