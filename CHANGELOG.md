@@ -1,3 +1,7 @@
+## 2.1.0
+
+- Add locale option to tsv2arb.
+
 ## 2.0.2
 
 - Fixed an error caused by a separator (tab) between empty cells when converting tsv -> arb.

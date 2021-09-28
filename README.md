@@ -20,6 +20,7 @@ After translation with spread sheet app. Export tsv file from spread sheet app a
 Usage: tsv2arb [path of tsv file or directory containing tsv files] [options]
 -o, --output-dir=<output directory>    Set output directory for generated arb file. Create directory if given directory is not exists
                                        (defaults to ".")
+-l, --locale=<locale in translation>   Append locale to suffix of the file name. ex) translate_en_US.arb
 ```
 
 ## Merge arb files
